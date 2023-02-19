@@ -50,9 +50,7 @@ class AddInstructionTest {
   }
 
   @Test
-  void testExecute() {
-    Registers registers = new Registers();
-    Machine machine = new Machine(registers);
+  void executeValidThree() {
     registers.set(Registers.Register.EAX, 5);
     registers.set(Registers.Register.EBX, 3);
     AddInstruction addInstruction = new AddInstruction(null, EAX, EBX);
