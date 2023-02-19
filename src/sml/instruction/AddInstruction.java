@@ -4,6 +4,8 @@ import sml.Instruction;
 import sml.Machine;
 import sml.RegisterName;
 
+import java.util.Objects;
+
 /**
  * The AddInstruction class represents an instruction in a machine language program that adds the value of one register
  * to another register and stores the result in the first register. This instruction extends the Instruction class.
@@ -58,6 +60,31 @@ public class AddInstruction extends Instruction {
 	@Override
 	public String toString() {
 		return getLabelString() + getOpcode() + " " + result + " " + source;
+	}
+
+	/**
+	 * Compares this AddInstruction to the specified object for equality.
+
+	 * @param o the object to compare to this Instruction
+	 * @return true if the specified object is equal to this Instruction, false otherwise
+	 */
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+		AddInstruction that = (AddInstruction) o;
+		return Objects.equals(result, that.result) && Objects.equals(source, that.source)
+				&& Objects.equals(that.label, label);
+	}
+
+	/**
+	 * Returns a hash code value for this AddInstruction.
+
+	 * @return a hash code value for this Instruction
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(result, source);
 	}
 }
 
