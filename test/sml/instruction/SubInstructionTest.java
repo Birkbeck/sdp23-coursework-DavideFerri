@@ -69,8 +69,10 @@ class SubInstructionTest {
         SubInstruction SubInstruction1 = new SubInstruction(null, EAX, EBX);
         SubInstruction SubInstruction2 = new SubInstruction(null, EAX, EBX);
         SubInstruction SubInstruction3 = new SubInstruction(null, EAX, EDI);
+        AddInstruction AddInstruction4 = new AddInstruction(null, EAX, EBX);
         assertEquals(SubInstruction1, SubInstruction2);
         assertNotEquals(SubInstruction1, SubInstruction3);
+        assertNotEquals(SubInstruction1, AddInstruction4);
     }
 
     @Test

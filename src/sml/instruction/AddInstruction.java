@@ -71,8 +71,7 @@ public class AddInstruction extends Instruction {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		AddInstruction that = (AddInstruction) o;
+		if (!(o instanceof AddInstruction that)) return false;
 		return Objects.equals(result, that.result) && Objects.equals(source, that.source)
 				&& Objects.equals(that.label, label);
 	}

@@ -7,7 +7,7 @@ import sml.RegisterName;
 import java.util.Objects;
 
 /**
- * The AddInstruction class represents an instruction in a machine language program that adds the value of one register
+ * The AddInstruction class represents an instruction in a machine language program that subtracts the value of one register
  * to another register and stores the result in the first register. This instruction extends the Instruction class.
  */
 public class SubInstruction extends Instruction {
@@ -19,10 +19,10 @@ public class SubInstruction extends Instruction {
 	private final RegisterName source;
 
 	/** The opcode for the add instruction. */
-	public static final String OP_CODE = "add";
+	public static final String OP_CODE = "sub";
 
 	/**
-	 * Constructs an AddInstruction object with a label, result register name, and source register name.
+	 * Constructs a SubInstruction object with a label, result register name, and source register name.
 	 *
 	 * @param label the label for the instruction, or null if none
 	 * @param result the name of the result register
@@ -35,9 +35,10 @@ public class SubInstruction extends Instruction {
 	}
 
 	/**
-	 * Executes the add instruction on the specified Machine object.
+	 * Executes the sub instruction on the specified Machine object.
 	 *
-	 * This method retrieves the values of the two registers specified in the constructor, adds them together, and stores
+	 * This method retrieves the values of the two registers specified in the constructor, subtracts the second from the
+	 * first, and stores
 	 * the result in the result register. The method returns a constant value indicating that the program counter should be
 	 * updated normally.
 	 *
@@ -48,7 +49,7 @@ public class SubInstruction extends Instruction {
 	public int execute(Machine m) {
 		int value1 = m.getRegisters().get(result);
 		int value2 = m.getRegisters().get(source);
-		m.getRegisters().set(result, value1 + value2);
+		m.getRegisters().set(result, value1 - value2);
 		return NORMAL_PROGRAM_COUNTER_UPDATE;
 	}
 
@@ -63,7 +64,7 @@ public class SubInstruction extends Instruction {
 	}
 
 	/**
-	 * Compares this AddInstruction to the specified object for equality.
+	 * Compares this SubInstruction to the specified object for equality.
 
 	 * @param o the object to compare to this Instruction
 	 * @return true if the specified object is equal to this Instruction, false otherwise
@@ -71,14 +72,13 @@ public class SubInstruction extends Instruction {
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
-		if (o == null || getClass() != o.getClass()) return false;
-		SubInstruction that = (SubInstruction) o;
+		if (!(o instanceof SubInstruction that)) return false;
 		return Objects.equals(result, that.result) && Objects.equals(source, that.source)
 				&& Objects.equals(that.label, label);
 	}
 
 	/**
-	 * Returns a hash code value for this AddInstruction.
+	 * Returns a hash code value for this SubInstruction.
 
 	 * @return a hash code value for this Instruction
 	 */
