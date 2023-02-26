@@ -3,6 +3,7 @@ package sml;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.StringJoiner;
 
 // TODO: write a JavaDoc for the class
 
@@ -21,7 +22,9 @@ public final class Labels {
 	 */
 	public void addLabel(String label, int address) {
 		Objects.requireNonNull(label);
-		// TODO: Add a check that there are no label duplicates.
+		if (labels.containsKey(label)){
+			throw new IllegalArgumentException("Label '" + label + "' is duplicate");
+		}
 		labels.put(label, address);
 	}
 
@@ -32,9 +35,11 @@ public final class Labels {
 	 * @return the address the label refers to
 	 */
 	public int getAddress(String label) {
-		// TODO: Where can NullPointerException be thrown here?
-		//       (Write an explanation.)
-		//       Add code to deal with non-existent labels.
+		// Being this a public method it would be possible for a user to
+		// pass a label which has no address as it corresponds to no instruction in the program
+		if (! labels.containsKey(label)){
+			throw new NullPointerException("Label '" + label + "' does not exist");
+		}
 		return labels.get(label);
 	}
 
@@ -46,11 +51,24 @@ public final class Labels {
 	 */
 	@Override
 	public String toString() {
-		// TODO: Implement the method using the Stream API (see also class Registers).
-		return "";
+		StringJoiner joiner = new StringJoiner(", ", "[", "]");
+		labels.entrySet().stream()
+				.map(entry -> entry.getKey() + " -> " + entry.getValue())
+				.forEach(joiner::add);
+		return joiner.toString();
 	}
 
-	// TODO: Implement equals and hashCode (needed in class Machine).
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Labels other_labels)) return false;
+		return labels.equals(other_labels.labels);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(labels);
+	}
 
 	/**
 	 * Removes the labels
