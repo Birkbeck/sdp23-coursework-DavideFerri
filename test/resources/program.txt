@@ -1,0 +1,7 @@
+add EAX EDI
+div EAX EDI
+example_mov: mov EDI 3
+example_out: out EAX
+sub EAX EDI
+example_mul: mul EAX EDI
+example_jnz: jnz EDI example_mov

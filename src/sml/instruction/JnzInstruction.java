@@ -24,7 +24,7 @@ public class JnzInstruction extends Instruction {
 	public static final String OP_CODE = "jnz";
 
 	/**
-	 * Constructs an AddInstruction object with a label, result register name, and source register name.
+	 * Constructs an JnzInstruction object with a label, result register name, and source register name.
 	 *
 	 * @param label the label for the instruction, or null if none
 	 * @param register the name of the result register
