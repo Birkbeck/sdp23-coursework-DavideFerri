@@ -4,7 +4,10 @@ import sml.instruction.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
@@ -66,56 +69,46 @@ public final class Translator {
             return null;
 
         String opcode = scan();
-        switch (opcode) {
-            case AddInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new AddInstruction(label, Register.valueOf(r), Register.valueOf(s));
+        String instructionClassName = "sml.instruction." + Character.toUpperCase(opcode.charAt(0)) + opcode.substring(1) + "Instruction";
+
+        try {
+            Class<?> instructionClass = Class.forName(instructionClassName);
+            Constructor<?>[] constructors = instructionClass.getConstructors();
+            Constructor<?> constructor = null;
+            for (Constructor<?> c : constructors) {
+                Class<?>[] parameterTypes = c.getParameterTypes();
+                if (parameterTypes.length == 0 || !parameterTypes[0].equals(String.class)) {
+                    continue;
+                }
+                constructor = c;
+                break;
             }
 
-            case MulInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new MulInstruction(label, Register.valueOf(r), Register.valueOf(s));
+            if (constructor == null) {
+                throw new NoSuchMethodException("No suitable constructor found for instruction class: " + instructionClassName);
             }
 
-            case MovInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new MovInstruction(label, Register.valueOf(r), Integer.parseInt(s));
+            Object[] args = new Object[constructor.getParameterCount()];
+            args[0] = label;
+            for (int i = 1; i < args.length; i++) {
+                Class<?> parameterType = constructor.getParameterTypes()[i];
+                switch (parameterType.getSimpleName()) {
+                    case "RegisterName" -> args[i] = Register.valueOf(scan());
+                    case "int" -> args[i] = Integer.parseInt(scan());
+                    case "String" -> args[i] = scan();
+
+                    // Add cases for other argument types as needed
+                    default -> throw new IllegalArgumentException("Unknown argument type: " + parameterType.getSimpleName());
+                }
             }
 
-            case JnzInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new JnzInstruction(label, Register.valueOf(r), s);
-            }
-
-            case DivInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new DivInstruction(label, Register.valueOf(r), Register.valueOf(s));
-            }
-            case OutInstruction.OP_CODE -> {
-                String r = scan();
-                return new OutInstruction(label, Register.valueOf(r));
-            }
-
-            case SubInstruction.OP_CODE -> {
-                String r = scan();
-                String s = scan();
-                return new SubInstruction(label, Register.valueOf(r), Register.valueOf(s));
-            }
-
-            // TODO: Then, replace the switch by using the Reflection API
-
-            // TODO: Next, use dependency injection to allow this machine class
-            //       to work with different sets of opcodes (different CPUs)
-
-            default -> {
-                System.out.println("Unknown instruction: " + opcode);
-            }
+            return (Instruction) constructor.newInstance(args);
+        } catch (ClassNotFoundException e) {
+            System.out.println("Unknown instruction with opcode: " + opcode);
+        } catch (NoSuchMethodException | IllegalAccessException | InstantiationException | InvocationTargetException e) {
+            e.printStackTrace();
         }
+
         return null;
     }
 
