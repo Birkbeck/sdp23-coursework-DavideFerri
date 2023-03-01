@@ -1,6 +1,7 @@
 package sml.instruction;
 
 import sml.Instruction;
+import sml.Labels;
 import sml.Machine;
 import sml.RegisterName;
 
@@ -50,17 +51,8 @@ public class JnzInstruction extends Instruction {
 		int value = m.getRegisters().get(register);
 		if (value == 0) return NORMAL_PROGRAM_COUNTER_UPDATE;
 		else{
-			List<Instruction> instructions = m.getProgram();
-			Optional<Instruction> corresponding_instruction = instructions.stream()
-					.filter(elem -> elem.getLabel().equals(this.other_label))
-					.findFirst();
-			if (corresponding_instruction.isPresent())
-			{
-				return instructions.indexOf(corresponding_instruction.get());
-			}
-			else{
-				throw new IndexOutOfBoundsException();
-			}
+			Labels labels = m.getLabels();
+			return labels.getAddress(this.other_label);
 		}
 	}
 
