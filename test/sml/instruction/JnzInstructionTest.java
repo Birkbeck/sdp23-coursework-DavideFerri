@@ -5,10 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import sml.Instruction;
-import sml.Machine;
-import sml.RegisterName;
-import sml.Registers;
+import sml.*;
 
 import java.util.List;
 
@@ -26,9 +23,12 @@ class JnzInstructionTest {
         registers = machine.getRegisters();
         Instruction dest_instruction = new JnzInstruction("x", EAX, "l");
         Instruction rem_instruction = new JnzInstruction("z", EAX, "x");
+        Labels labels = machine.getLabels();
         List<Instruction> instructions = machine.getProgram();
         instructions.add(dest_instruction);
+        labels.addLabel("x", 0);
         instructions.add(rem_instruction);
+        labels.addLabel("z", 1);
         //...
     }
 
