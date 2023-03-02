@@ -18,7 +18,7 @@ public class MulInstruction extends Instruction {
 	/** The name of the source register. */
 	private final RegisterName source;
 
-	/** The opcode for the add instruction. */
+	/** The opcode for the mul instruction. */
 	public static final String OP_CODE = "mul";
 
 	/**

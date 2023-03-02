@@ -3,8 +3,6 @@ package sml;
 import java.util.*;
 import java.util.stream.Collectors;
 
-// TODO: write a JavaDoc for the class
-
 /**
  * A class representing the registers used in the program. The registers are identified by their names,
  * which are defined as elements of the Register enumeration. Each register holds an integer value.

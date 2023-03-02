@@ -37,7 +37,7 @@ public class MovInstruction extends Instruction {
 	/**
 	 * Executes the mov instruction on the specified Machine object.
 	 *
-	 * This method retrieves replaces the value of one register with value
+	 * This method replaces the value of one register with value
 	 * The method returns a constant value indicating that the program counter should be
 	 * updated normally.
 	 *

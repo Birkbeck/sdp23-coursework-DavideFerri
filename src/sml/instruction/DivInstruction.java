@@ -18,7 +18,7 @@ public class DivInstruction extends Instruction {
 	/** The name of the source register. */
 	private final RegisterName source;
 
-	/** The opcode for the add instruction. */
+	/** The opcode for the div instruction. */
 	public static final String OP_CODE = "div";
 
 	/**

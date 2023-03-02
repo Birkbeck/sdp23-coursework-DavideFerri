@@ -12,7 +12,7 @@ import java.util.Objects;
  */
 public class OutInstruction extends Instruction {
 
-	/** The name of the result register. */
+	/** The name of the register. */
 	private final RegisterName register;
 
 	/** The opcode for the add instruction. */

@@ -21,15 +21,15 @@ public class JnzInstruction extends Instruction {
 	/** The name of the source register. */
 	private final String other_label;
 
-	/** The opcode for the add instruction. */
+	/** The opcode for the jnz instruction. */
 	public static final String OP_CODE = "jnz";
 
 	/**
-	 * Constructs an JnzInstruction object with a label, result register name, and source register name.
+	 * Constructs an JnzInstruction object with a label, register name, and the label of the other instruction.
 	 *
 	 * @param label the label for the instruction, or null if none
 	 * @param register the name of the result register
-	 * @param other_label the name of the source register
+	 * @param other_label the label of the other instruction
 	 */
 	public JnzInstruction(String label, RegisterName register, String other_label) {
 		super(label, OP_CODE);
@@ -41,7 +41,7 @@ public class JnzInstruction extends Instruction {
 	 * Executes the jnz instruction on the specified Machine object.
 	 *
 	 * This method retrieves the values of the register specified and if it's different
-	 * than zero it will return the value of the program counter to process instruction with label next
+	 * than zero it will return the value of the program counter to process  the instruction with the other label next
 	 *
 	 * @param m the Machine object on which to execute the instruction
 	 * @return the new program counter or the normal program counter update if condition does not hold
@@ -57,7 +57,7 @@ public class JnzInstruction extends Instruction {
 	}
 
 	/**
-	 * Returns a string representation of the instruction in the format "label: opcode result source".
+	 * Returns a string representation of the instruction in the format "label: opcode register other_label".
 	 *
 	 * @return a string representation of the instruction
 	 */
@@ -67,7 +67,7 @@ public class JnzInstruction extends Instruction {
 	}
 
 	/**
-	 * Compares this AddInstruction to the specified object for equality.
+	 * Compares this JnzInstruction to the specified object for equality.
 
 	 * @param o the object to compare to this Instruction
 	 * @return true if the specified object is equal to this Instruction, false otherwise
@@ -81,7 +81,7 @@ public class JnzInstruction extends Instruction {
 	}
 
 	/**
-	 * Returns a hash code value for this AddInstruction.
+	 * Returns a hash code value for this JnzInstruction.
 
 	 * @return a hash code value for this Instruction
 	 */

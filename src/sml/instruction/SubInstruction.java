@@ -7,7 +7,7 @@ import sml.RegisterName;
 import java.util.Objects;
 
 /**
- * The AddInstruction class represents an instruction in a machine language program that subtracts the value of one register
+ * The SubInstruction class represents an instruction in a machine language program that subtracts the value of one register
  * to another register and stores the result in the first register. This instruction extends the Instruction class.
  */
 public class SubInstruction extends Instruction {
@@ -18,7 +18,7 @@ public class SubInstruction extends Instruction {
 	/** The name of the source register. */
 	private final RegisterName source;
 
-	/** The opcode for the add instruction. */
+	/** The opcode for the instruction. */
 	public static final String OP_CODE = "sub";
 
 	/**

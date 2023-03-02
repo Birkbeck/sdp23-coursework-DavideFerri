@@ -1,25 +1,13 @@
 package sml;
 
-import sml.instruction.*;
-import sml.InstructionFactory;
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
-import static sml.Registers.Register;
-
 /**
- * This class ....
- * <p>
- * The translator of a <b>S</b><b>M</b>al<b>L</b> program.
- *
- * @author ...
+ * This class is responsible for translating a SML program into a list of instructions.
  */
 public final class Translator {
 
@@ -28,15 +16,23 @@ public final class Translator {
     // line contains the characters in the current line that's not been processed yet
     private String line = "";
 
+    /**
+     * Constructs a new `Translator` object that will read and translate the specified file.
+     *
+     * @param fileName the name of the file containing the SML program
+     */
     public Translator(String fileName) {
-        this.fileName =  fileName;
+        this.fileName = fileName;
         instructionFactory = AbstractInstructionFactory.getInstance();
     }
 
-    // translate the small program in the file into lab (the labels) and
-    // prog (the program)
-    // return "no errors were detected"
-
+    /**
+     * Translates the SML program in the file into a list of instructions.
+     *
+     * @param labels  the `Labels` object to store label information in
+     * @param program the list of `Instruction` objects to store the translated program in
+     * @throws IOException if an I/O error occurs while reading the input file
+     */
     public void readAndTranslate(Labels labels, List<Instruction> program) throws IOException {
         try (var sc = new Scanner(new File(fileName), StandardCharsets.UTF_8)) {
             labels.reset();
@@ -58,13 +54,10 @@ public final class Translator {
     }
 
     /**
-     * Translates the current line into an instruction with the given label
+     * Translates the current line into an instruction with the given label.
      *
      * @param label the instruction label
-     * @return the new instruction
-     * <p>
-     * The input line should consist of a single SML instruction,
-     * with its label already removed.
+     * @return the new `Instruction` object, or `null` if the line is empty
      */
     private Instruction getInstruction(String label) {
         if (line.isEmpty())
@@ -74,7 +67,11 @@ public final class Translator {
         return instructionFactory.createInstruction(label, opcode, this::scan);
     }
 
-
+    /**
+     * Extracts the label from the current line, if there is one.
+     *
+     * @return the label, or `null` if there is no label on the current line
+     */
     private String getLabel() {
         String word = scan();
         if (word.endsWith(":"))
@@ -85,9 +82,10 @@ public final class Translator {
         return null;
     }
 
-    /*
-     * Return the first word of line and remove it from line.
-     * If there is no word, return "".
+    /**
+     * Extracts the next word from the current line and removes it from the line.
+     *
+     * @return the next word, or an empty string if there are no more words on the line
      */
     private String scan() {
         line = line.trim();

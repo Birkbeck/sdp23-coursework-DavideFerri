@@ -1,18 +1,26 @@
 package sml;
 
-import sml.Instruction;
-import sml.Registers;
-
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Scanner;
 import java.util.function.Supplier;
 
+/**
+ * The InstructionFactory class is responsible for creating Instruction objects
+ * based on the opcode provided to the createInstruction method.
+ *
+ * This class implements the Singleton design pattern to ensure that there is only
+ * one instance of the class in the application at runtime.
+ */
 public class InstructionFactory extends AbstractInstructionFactory{
     private static InstructionFactory instance;
 
     private InstructionFactory() {}
 
+    /**
+     * Returns the singleton instance of the InstructionFactory class.
+     *
+     * @return the singleton instance of the InstructionFactory class.
+     */
     public static InstructionFactory getInstance() {
         if (instance == null) {
             instance = new InstructionFactory();
@@ -20,6 +28,15 @@ public class InstructionFactory extends AbstractInstructionFactory{
         return instance;
     }
 
+    /**
+     * Creates an Instruction object based on the opcode provided.
+     *
+     * @param label the label of the instruction.
+     * @param opcode the opcode of the instruction.
+     * @param scan a Supplier function that can be used to obtain the argument values for the instruction.
+     * @return the Instruction object created based on the opcode provided.
+     * @throws IllegalArgumentException if the opcode provided is invalid or if the arguments provided for the instruction are invalid.
+     */
     public Instruction createInstruction(String label, String opcode, Supplier<String> scan) throws IllegalArgumentException {
 
         String instructionClassName = "sml.instruction." + Character.toUpperCase(opcode.charAt(0)) + opcode.substring(1) + "Instruction";
