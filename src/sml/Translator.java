@@ -24,13 +24,13 @@ import static sml.Registers.Register;
 public final class Translator {
 
     private final String fileName; // source file of SML code
-    private final InstructionFactory instructionFactory; // instruction factory instance
+    private final AbstractInstructionFactory instructionFactory; // instruction factory instance
     // line contains the characters in the current line that's not been processed yet
     private String line = "";
 
     public Translator(String fileName) {
         this.fileName =  fileName;
-        instructionFactory = InstructionFactory.getInstance();
+        instructionFactory = AbstractInstructionFactory.getInstance();
     }
 
     // translate the small program in the file into lab (the labels) and

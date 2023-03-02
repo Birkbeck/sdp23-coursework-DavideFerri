@@ -8,7 +8,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.Scanner;
 import java.util.function.Supplier;
 
-public class InstructionFactory {
+public class InstructionFactory extends AbstractInstructionFactory{
     private static InstructionFactory instance;
 
     private InstructionFactory() {}
